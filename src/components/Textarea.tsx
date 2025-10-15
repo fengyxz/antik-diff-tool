@@ -1,7 +1,8 @@
-import { TextareaHTMLAttributes } from "react";
+import type { TextareaHTMLAttributes } from "react";
 import FileUpload from "./FileUpload";
 
-interface TextareaProps extends TextareaHTMLAttributes<HTMLTextAreaElement> {
+interface TextareaProps
+  extends Omit<TextareaHTMLAttributes<HTMLTextAreaElement>, "onChange"> {
   label?: string;
   value: string;
   onChange: (value: string) => void;
