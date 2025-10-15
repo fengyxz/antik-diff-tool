@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- 简洁版本 - 更清晰的图标 -->
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1e293b;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#0f172a;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- 背景 -->
+  <rect width="100" height="100" fill="url(#bgGrad)" rx="22"/>
+  
+  <!-- 大的对比符号 -->
+  <!-- 减号（红色） -->
+  <rect x="20" y="32" width="25" height="4" fill="#f87171" rx="2"/>
+  
+  <!-- 加号（绿色） -->
+  <rect x="55" y="32" width="25" height="4" fill="#4ade80" rx="2"/>
+  <rect x="65.5" y="21.5" width="4" height="25" fill="#4ade80" rx="2"/>
+  
+  <!-- 等号装饰 -->
+  <rect x="30" y="55" width="40" height="3" fill="#64748b" rx="1.5"/>
+  <rect x="30" y="63" width="40" height="3" fill="#64748b" rx="1.5"/>
+</svg>
+

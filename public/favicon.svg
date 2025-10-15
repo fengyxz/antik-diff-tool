@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- 背景 -->
+  <rect width="100" height="100" fill="#0f172a" rx="20"/>
+  
+  <!-- 左侧文本块（删除） -->
+  <rect x="15" y="25" width="30" height="8" fill="#fecaca" rx="2"/>
+  <rect x="15" y="38" width="28" height="8" fill="#fecaca" rx="2"/>
+  <rect x="15" y="51" width="25" height="8" fill="#fecaca" rx="2"/>
+  
+  <!-- 右侧文本块（新增） -->
+  <rect x="55" y="25" width="30" height="8" fill="#bbf7d0" rx="2"/>
+  <rect x="55" y="38" width="32" height="8" fill="#bbf7d0" rx="2"/>
+  <rect x="55" y="51" width="28" height="8" fill="#bbf7d0" rx="2"/>
+  
+  <!-- 中间对比箭头 -->
+  <path d="M 40 42 L 50 42 L 48 40 M 50 42 L 48 44" 
+        stroke="#94a3b8" 
+        stroke-width="2" 
+        stroke-linecap="round" 
+        fill="none"/>
+  
+  <!-- 底部装饰线 -->
+  <rect x="15" y="70" width="70" height="3" fill="#475569" rx="1.5"/>
+</svg>
+
