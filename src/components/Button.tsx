@@ -24,12 +24,12 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
         "bg-slate-100 text-slate-900 hover:bg-slate-200 active:bg-slate-300",
     };
 
-    const sizes = {
-      default: "h-10 px-4 py-2 text-sm",
-      sm: "h-8 px-3 text-xs",
-      lg: "h-12 px-6 text-base",
-      icon: "h-10 w-10",
-    };
+  const sizes = {
+    default: "h-9 sm:h-10 px-3 sm:px-4 py-2 text-xs sm:text-sm",
+    sm: "h-8 px-2 sm:px-3 text-xs",
+    lg: "h-10 sm:h-12 px-4 sm:px-6 text-sm sm:text-base",
+    icon: "h-9 w-9 sm:h-10 sm:w-10",
+  };
 
     return (
       <button

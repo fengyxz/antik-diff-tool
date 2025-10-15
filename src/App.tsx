@@ -8,6 +8,7 @@ import InlineDiff from "./components/DiffDisplay/InlineDiff";
 import SideBySide from "./components/DiffDisplay/SideBySide";
 import EmptyState from "./components/DiffDisplay/EmptyState";
 import ShareDialog from "./components/ShareDialog";
+import LoadingScreen from "./components/LoadingScreen";
 import { mixedDiff } from "./utils/diffAlgorithm";
 import { saveDiffSession, loadDiffSession } from "./lib/supabase";
 import type { DiffResult } from "./utils/diffAlgorithm";
@@ -40,6 +41,7 @@ export default function App() {
   const [showShareDialog, setShowShareDialog] = useState(false);
   const [currentSessionId, setCurrentSessionId] = useState<string>("");
   const [loading, setLoading] = useState(false);
+  const [initialLoading, setInitialLoading] = useState(false);
 
   // 检查URL参数，加载分享的会话
   useEffect(() => {
@@ -47,6 +49,7 @@ export default function App() {
     const sessionId = params.get("session");
 
     if (sessionId) {
+      setInitialLoading(true);
       loadSession(sessionId);
     }
   }, []);
@@ -67,6 +70,7 @@ export default function App() {
       alert("加载失败：" + (result.error || "未找到会话"));
     }
     setLoading(false);
+    setInitialLoading(false);
   };
 
   // 计算diff结果
@@ -128,7 +132,8 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-white p-6 md:p-8 lg:p-12">
+    <div className="min-h-screen bg-white p-6 md:p-8 lg:p-12 relative">
+      {initialLoading && <LoadingScreen />}
       <div className="mx-auto space-y-8">
         {/* 顶部标题栏 */}
         <header className="flex flex-col md:flex-row md:items-center justify-between gap-6 pb-4 border-b-2 border-slate-100">
@@ -193,8 +198,8 @@ export default function App() {
         </header>
 
         {/* 控制面板 */}
-        <div className="bg-slate-50 rounded-2xl p-6 border-2 border-slate-100">
-          <div className="flex flex-wrap items-start gap-8 lg:gap-12">
+        <div className="bg-slate-50 rounded-xl md:rounded-2xl p-3 sm:p-4 md:p-6 border-2 border-slate-100">
+          <div className="flex flex-wrap items-start gap-4 md:gap-6 lg:gap-8">
             {/* 对比模式选择 */}
             <ToggleGroup
               label="对比模式"
@@ -282,7 +287,6 @@ export default function App() {
           </div>
         </div>
       </div>
-
       {/* 分享对话框 */}
       {showShareDialog && (
         <ShareDialog

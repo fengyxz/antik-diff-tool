@@ -25,10 +25,10 @@ export default function StatsBadge({ type, count }: StatsBadgeProps) {
 
   return (
     <div
-      className={`flex items-center gap-2 px-4 py-2 ${style.bg} border-2 ${style.border} rounded-xl`}
+      className={`flex items-center gap-1.5 md:gap-2 px-2 sm:px-3 md:px-4 py-1.5 md:py-2 ${style.bg} border-2 ${style.border} rounded-lg md:rounded-xl`}
     >
-      <div className={`w-2.5 h-2.5 rounded-full ${style.dot}`} />
-      <span className={`text-sm font-semibold ${style.text}`}>
+      <div className={`w-2 h-2 md:w-2.5 md:h-2.5 rounded-full ${style.dot}`} />
+      <span className={`text-xs md:text-sm font-semibold ${style.text}`}>
         {style.prefix}
         {count}
       </span>
