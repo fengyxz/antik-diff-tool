@@ -58,7 +58,28 @@ export default function CodeEditor({
           <FileUpload onFileRead={handleFileRead} label={label} />
         </div>
       )}
-      <div className="flex-1 border-2 border-slate-200 rounded-xl overflow-hidden bg-slate-50 focus-within:border-slate-900 focus-within:shadow-lg transition-all">
+      <div className="relative flex-1 border-2 border-slate-200 rounded-xl overflow-hidden bg-slate-50 focus-within:border-slate-900 focus-within:shadow-lg transition-all">
+        {/* 空状态拖拽提示 */}
+        {!value && (
+          <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none z-10 bg-slate-50 border-2 border-dashed border-slate-300 rounded-xl">
+            <svg
+              className="w-12 h-12 text-slate-300 mb-3"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={1.5}
+                d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"
+              />
+            </svg>
+            <p className="text-slate-400 font-medium text-sm">拖拽代码文件到此处上传</p>
+            <p className="text-slate-300 text-xs mt-1">或点击"上传文件"按钮</p>
+          </div>
+        )}
+        
         <Editor
           value={value}
           onChange={(newValue) => onChange(newValue || "")}
