@@ -118,8 +118,8 @@ export default function DropZone({
   return (
     <div
       className={`${className} ${
-        isDragging ? "ring-4 ring-blue-400 ring-opacity-50 bg-blue-50/50" : ""
-      } transition-all relative`}
+        isDragging ? "ring-2 ring-slate-900 ring-offset-2" : ""
+      } transition-all relative rounded-xl`}
       onDragEnter={handleDragEnter}
       onDragLeave={handleDragLeave}
       onDragOver={handleDragOver}
@@ -127,10 +127,10 @@ export default function DropZone({
     >
       {children}
       {isDragging && (
-        <div className="absolute inset-0 flex items-center justify-center bg-blue-50/90 backdrop-blur-sm z-50 pointer-events-none rounded-xl">
-          <div className="text-center">
+        <div className="absolute inset-0 flex items-center justify-center bg-slate-900/5 backdrop-blur-[2px] z-50 pointer-events-none rounded-xl border-2 border-slate-900">
+          <div className="text-center bg-white/95 px-6 py-4 rounded-xl shadow-lg">
             <svg
-              className="w-16 h-16 mx-auto mb-3 text-blue-500"
+              className="w-12 h-12 mx-auto mb-2 text-slate-700"
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
@@ -142,9 +142,7 @@ export default function DropZone({
                 d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"
               />
             </svg>
-            <p className="text-blue-700 font-semibold text-lg">
-              释放以上传文件
-            </p>
+            <p className="text-slate-900 font-semibold">释放以上传文件</p>
           </div>
         </div>
       )}
