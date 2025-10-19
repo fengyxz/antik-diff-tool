@@ -359,47 +359,59 @@ export default function App() {
         >
           {compareMode === "code" ? (
             <>
-              <DropZone onFileRead={handleDropLeft} disabled={!!base}>
-                <CodeEditor
-                  value={base}
-                  onChange={setBase}
-                  onFileUpload={handleFileUpload}
-                  label="原始代码"
-                  language={codeLanguage}
-                />
-              </DropZone>
-              <DropZone onFileRead={handleDropRight} disabled={!!changed}>
-                <CodeEditor
-                  value={changed}
-                  onChange={setChanged}
-                  onFileUpload={handleFileUpload}
-                  label="修改后的代码"
-                  language={codeLanguage}
-                />
-              </DropZone>
+              <CodeEditor
+                value={base}
+                onChange={setBase}
+                onFileUpload={handleFileUpload}
+                label="原始代码"
+                language={codeLanguage}
+                wrapEditor={(editor) => (
+                  <DropZone onFileRead={handleDropLeft} disabled={!!base}>
+                    {editor}
+                  </DropZone>
+                )}
+              />
+              <CodeEditor
+                value={changed}
+                onChange={setChanged}
+                onFileUpload={handleFileUpload}
+                label="修改后的代码"
+                language={codeLanguage}
+                wrapEditor={(editor) => (
+                  <DropZone onFileRead={handleDropRight} disabled={!!changed}>
+                    {editor}
+                  </DropZone>
+                )}
+              />
             </>
           ) : (
             <>
-              <DropZone onFileRead={handleDropLeft} disabled={!!base}>
-                <Textarea
-                  value={base}
-                  onChange={setBase}
-                  onFileUpload={handleFileUpload}
-                  placeholder="在此粘贴、输入文本或上传文件..."
-                  label="原始文本"
-                  showFileUpload={true}
-                />
-              </DropZone>
-              <DropZone onFileRead={handleDropRight} disabled={!!changed}>
-                <Textarea
-                  value={changed}
-                  onChange={setChanged}
-                  onFileUpload={handleFileUpload}
-                  placeholder="在此粘贴、输入文本或上传文件..."
-                  label="修改后的文本"
-                  showFileUpload={true}
-                />
-              </DropZone>
+              <Textarea
+                value={base}
+                onChange={setBase}
+                onFileUpload={handleFileUpload}
+                placeholder="在此粘贴、输入文本或上传文件..."
+                label="原始文本"
+                showFileUpload={true}
+                wrapTextarea={(textarea) => (
+                  <DropZone onFileRead={handleDropLeft} disabled={!!base}>
+                    {textarea}
+                  </DropZone>
+                )}
+              />
+              <Textarea
+                value={changed}
+                onChange={setChanged}
+                onFileUpload={handleFileUpload}
+                placeholder="在此粘贴、输入文本或上传文件..."
+                label="修改后的文本"
+                showFileUpload={true}
+                wrapTextarea={(textarea) => (
+                  <DropZone onFileRead={handleDropRight} disabled={!!changed}>
+                    {textarea}
+                  </DropZone>
+                )}
+              />
             </>
           )}
         </div>

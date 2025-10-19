@@ -1,4 +1,4 @@
-import { ReactNode, useState, DragEvent } from "react";
+import { type ReactNode, useState, type DragEvent } from "react";
 
 interface DropZoneProps {
   onFileRead: (content: string, filename: string) => void;
