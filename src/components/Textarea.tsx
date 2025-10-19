@@ -65,10 +65,10 @@ export default function Textarea({
       )}
       {wrapTextarea ? (
         wrapTextarea(
-          <div className="relative flex-1">
+          <div className="relative flex-1 border-2 border-slate-200 rounded-xl overflow-hidden focus-within:border-slate-900">
             {/* 空状态拖拽提示 */}
             {!value && !isFocused && (
-              <div className="absolute bg-white inset-0 flex flex-col items-center justify-center pointer-events-none z-10">
+              <div className="absolute bg-white inset-0 flex flex-col  items-center justify-center pointer-events-none z-10">
                 <svg
                   className="w-12 h-12 text-slate-300 mb-3"
                   fill="none"
@@ -83,7 +83,7 @@ export default function Textarea({
                   />
                 </svg>
                 <p className="text-slate-400 font-medium text-sm">
-                  拖拽文件到此处上传
+                  拖拽文件到此处上传，或在此输入文本
                 </p>
                 <p className="text-slate-300 text-xs mt-1">
                   或点击"上传文件"按钮
@@ -96,7 +96,7 @@ export default function Textarea({
               onChange={(e) => onChange(e.target.value)}
               onFocus={() => setIsFocused(true)}
               onBlur={() => setIsFocused(false)}
-              className={`w-full h-full px-4 py-4 pb-10 text-[15px] leading-relaxed rounded-xl border-2 border-slate-200 bg-transparent text-slate-900 placeholder:text-slate-400 focus:outline-none focus:border-slate-900 focus:bg-white focus:shadow-lg resize-none transition-all ${className}`}
+              className={`w-full h-full px-4 py-4 pb-10 text-[15px] leading-relaxed rounded-xl bg-transparent  placeholder:text-slate-400 focus:outline-none  focus:bg-white focus:shadow-lg resize-none transition-all ${className}`}
               {...props}
             />
             <div className="absolute bottom-3 right-4 flex items-center gap-3 text-xs text-slate-400 font-medium pointer-events-none">
@@ -125,7 +125,7 @@ export default function Textarea({
                 />
               </svg>
               <p className="text-slate-400 font-medium text-sm">
-                拖拽文件到此处上传
+                拖拽文件到此处上传，或在此输入文本
               </p>
               <p className="text-slate-300 text-xs mt-1">
                 或点击"上传文件"按钮

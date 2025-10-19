@@ -68,7 +68,7 @@ export default function InlineDiff({ parts }: InlineDiffProps) {
             return (
               <span
                 key={i}
-                className="bg-rose-200/50 text-rose-600 font-medium whitespace-pre-wrap"
+                className="bg-rose-200/50 text-rose-600 font-medium"
                 style={{
                   textDecoration: "line-through",
                   textDecorationColor: "#e11d48",

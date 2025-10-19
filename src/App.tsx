@@ -394,7 +394,7 @@ export default function App() {
                 value={base}
                 onChange={setBase}
                 onFileUpload={handleFileUpload}
-                placeholder="在此粘贴、输入文本或上传文件..."
+                placeholder="在此输入文本..."
                 label="原始文本"
                 showFileUpload={true}
                 wrapTextarea={(textarea) => (
@@ -408,7 +408,7 @@ export default function App() {
                 value={changed}
                 onChange={setChanged}
                 onFileUpload={handleFileUpload}
-                placeholder="在此粘贴、输入文本或上传文件..."
+                placeholder="在此输入文本..."
                 label="修改后的文本"
                 showFileUpload={true}
                 wrapTextarea={(textarea) => (
