@@ -4,7 +4,11 @@ interface StatsBadgeProps {
   unit?: "字符" | "行";
 }
 
-export default function StatsBadge({ type, count, unit = "字符" }: StatsBadgeProps) {
+export default function StatsBadge({
+  type,
+  count,
+  unit = "字符",
+}: StatsBadgeProps) {
   const styles = {
     added: {
       bg: "bg-emerald-50",

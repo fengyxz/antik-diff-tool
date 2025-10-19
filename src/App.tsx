@@ -12,6 +12,7 @@ import LoadingScreen from "./components/LoadingScreen";
 import Tabs from "./components/Tabs";
 import CodeDiff from "./components/CodeDiff";
 import CodeEditor from "./components/CodeEditor";
+import DropZone from "./components/DropZone";
 import { mixedDiff, type DiffResult } from "./utils/diffAlgorithm";
 import { detectLanguageFromFilename } from "./utils/languageDetector";
 import { saveDiffSession, loadDiffSession } from "./lib/supabase";
@@ -149,6 +150,18 @@ export default function App() {
       const detectedLang = detectLanguageFromFilename(filename);
       setCodeLanguage(detectedLang);
     }
+  };
+
+  // 拖拽上传到左侧
+  const handleDropLeft = (content: string, filename: string) => {
+    setBase(content);
+    handleFileUpload(content, filename);
+  };
+
+  // 拖拽上传到右侧
+  const handleDropRight = (content: string, filename: string) => {
+    setChanged(content);
+    handleFileUpload(content, filename);
   };
 
   // 保存并分享
@@ -346,39 +359,47 @@ export default function App() {
         >
           {compareMode === "code" ? (
             <>
-              <CodeEditor
-                value={base}
-                onChange={setBase}
-                onFileUpload={handleFileUpload}
-                label="原始代码"
-                language={codeLanguage}
-              />
-              <CodeEditor
-                value={changed}
-                onChange={setChanged}
-                onFileUpload={handleFileUpload}
-                label="修改后的代码"
-                language={codeLanguage}
-              />
+              <DropZone onFileRead={handleDropLeft}>
+                <CodeEditor
+                  value={base}
+                  onChange={setBase}
+                  onFileUpload={handleFileUpload}
+                  label="原始代码"
+                  language={codeLanguage}
+                />
+              </DropZone>
+              <DropZone onFileRead={handleDropRight}>
+                <CodeEditor
+                  value={changed}
+                  onChange={setChanged}
+                  onFileUpload={handleFileUpload}
+                  label="修改后的代码"
+                  language={codeLanguage}
+                />
+              </DropZone>
             </>
           ) : (
             <>
-              <Textarea
-                value={base}
-                onChange={setBase}
-                onFileUpload={handleFileUpload}
-                placeholder="在此粘贴、输入文本或上传文件..."
-                label="原始文本"
-                showFileUpload={true}
-              />
-              <Textarea
-                value={changed}
-                onChange={setChanged}
-                onFileUpload={handleFileUpload}
-                placeholder="在此粘贴、输入文本或上传文件..."
-                label="修改后的文本"
-                showFileUpload={true}
-              />
+              <DropZone onFileRead={handleDropLeft}>
+                <Textarea
+                  value={base}
+                  onChange={setBase}
+                  onFileUpload={handleFileUpload}
+                  placeholder="在此粘贴、输入文本或上传文件..."
+                  label="原始文本"
+                  showFileUpload={true}
+                />
+              </DropZone>
+              <DropZone onFileRead={handleDropRight}>
+                <Textarea
+                  value={changed}
+                  onChange={setChanged}
+                  onFileUpload={handleFileUpload}
+                  placeholder="在此粘贴、输入文本或上传文件..."
+                  label="修改后的文本"
+                  showFileUpload={true}
+                />
+              </DropZone>
             </>
           )}
         </div>
