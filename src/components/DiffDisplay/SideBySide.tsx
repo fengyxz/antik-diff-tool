@@ -260,6 +260,22 @@ function DiffColumn({
                 );
               }
               if (part.added) {
+                if (part.isNewline) {
+                  // 新增的换行符（空行）：左侧整行灰色占位
+                  return (
+                    <div
+                      key={i}
+                      ref={(el) => {
+                        spanRefs.current[i] = el;
+                      }}
+                      className="bg-slate-100 -mx-6 px-6 min-h-[1.5em] flex items-center"
+                    >
+                      <span className="text-slate-500 select-none text-xs">
+                        ···
+                      </span>
+                    </div>
+                  );
+                }
                 // 如果新增的内容包含行（有换行符），左侧显示灰色占位行
                 if (part.lineCount && part.lineCount > 0) {
                   return (
@@ -268,7 +284,7 @@ function DiffColumn({
                       ref={(el) => {
                         spanRefs.current[i] = el;
                       }}
-                      className="bg-slate-100/80 -mx-6 px-6 min-h-[1.5em] flex items-center"
+                      className="bg-slate-100 -mx-6 px-6 min-h-[1.5em] flex items-center"
                     >
                       <span className="text-slate-500 select-none text-xs">
                         ···
@@ -276,7 +292,7 @@ function DiffColumn({
                     </div>
                   );
                 }
-                // 行内新增（不含换行符）在左侧不显示
+                // 行内新增：左侧不显示（保持空白对齐）
                 return null;
               }
               // 未修改：纯文本
@@ -297,7 +313,7 @@ function DiffColumn({
                 if (part.isNewline) {
                   // 新增的换行符：整行绿色背景
                   return (
-                    <div
+                    <span
                       key={i}
                       ref={(el) => {
                         spanRefs.current[i] = el;
@@ -310,7 +326,7 @@ function DiffColumn({
                       >
                         ↵
                       </span>
-                    </div>
+                    </span>
                   );
                 }
                 // 新增：带背景高亮
@@ -327,6 +343,22 @@ function DiffColumn({
                 );
               }
               if (part.removed) {
+                if (part.isNewline) {
+                  // 删除的换行符（空行）：右侧整行灰色占位
+                  return (
+                    <div
+                      key={i}
+                      ref={(el) => {
+                        spanRefs.current[i] = el;
+                      }}
+                      className="bg-slate-100 -mx-6 px-6 min-h-[1.5em] flex items-center"
+                    >
+                      <span className="text-slate-500 select-none text-xs">
+                        ···
+                      </span>
+                    </div>
+                  );
+                }
                 // 如果删除的内容包含行（有换行符），右侧显示灰色占位行
                 if (part.lineCount && part.lineCount > 0) {
                   return (
@@ -335,7 +367,7 @@ function DiffColumn({
                       ref={(el) => {
                         spanRefs.current[i] = el;
                       }}
-                      className="bg-slate-100/80 -mx-6 px-6 min-h-[1.5em] flex items-center"
+                      className="bg-slate-100 -mx-6 px-6 min-h-[1.5em] flex items-center"
                     >
                       <span className="text-slate-500 select-none text-xs">
                         ···
@@ -343,7 +375,7 @@ function DiffColumn({
                     </div>
                   );
                 }
-                // 行内删除（不含换行符）在右侧不显示
+                // 行内删除：右侧不显示（保持空白对齐）
                 return null;
               }
               // 未修改：纯文本

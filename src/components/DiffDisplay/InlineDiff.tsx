@@ -68,7 +68,7 @@ export default function InlineDiff({ parts }: InlineDiffProps) {
             return (
               <span
                 key={i}
-                className="bg-rose-200/50 text-rose-600 font-medium"
+                className="bg-rose-200/50 text-rose-600 font-medium whitespace-pre-wrap"
                 style={{
                   textDecoration: "line-through",
                   textDecorationColor: "#e11d48",
@@ -83,7 +83,7 @@ export default function InlineDiff({ parts }: InlineDiffProps) {
             if (part.isNewline) {
               // 新增的换行符：整行绿色背景
               return (
-                <div
+                <span
                   key={i}
                   className="bg-emerald-50 -mx-6 px-6 min-h-[1.5em] flex items-center"
                 >
@@ -93,7 +93,7 @@ export default function InlineDiff({ parts }: InlineDiffProps) {
                   >
                     ↵
                   </span>
-                </div>
+                </span>
               );
             }
             // 新增：带背景高亮
