@@ -1,4 +1,4 @@
-import { type ReactNode, useState, type DragEvent } from "react";
+import { type ReactNode, useState, type DragEvent, useRef } from "react";
 
 interface DropZoneProps {
   onFileRead: (content: string, filename: string) => void;
@@ -14,19 +14,26 @@ export default function DropZone({
   disabled = false,
 }: DropZoneProps) {
   const [isDragging, setIsDragging] = useState(false);
+  const dragCounterRef = useRef(0);
 
   const handleDragEnter = (e: DragEvent) => {
     if (disabled) return;
     e.preventDefault();
     e.stopPropagation();
-    setIsDragging(true);
+    dragCounterRef.current++;
+    if (e.dataTransfer?.items && e.dataTransfer.items.length > 0) {
+      setIsDragging(true);
+    }
   };
 
   const handleDragLeave = (e: DragEvent) => {
     if (disabled) return;
     e.preventDefault();
     e.stopPropagation();
-    setIsDragging(false);
+    dragCounterRef.current--;
+    if (dragCounterRef.current === 0) {
+      setIsDragging(false);
+    }
   };
 
   const handleDragOver = (e: DragEvent) => {
@@ -39,6 +46,7 @@ export default function DropZone({
     if (disabled) return;
     e.preventDefault();
     e.stopPropagation();
+    dragCounterRef.current = 0;
     setIsDragging(false);
 
     const files = Array.from(e.dataTransfer.files);

@@ -65,7 +65,7 @@ export default function CodeEditor({
       <div className="flex-1">
         {wrapEditor ? (
           wrapEditor(
-            <div 
+            <div
               className="relative h-full border-2 border-slate-200 rounded-xl overflow-hidden bg-slate-50 focus-within:border-slate-900 focus-within:shadow-lg transition-all"
               onFocus={() => setIsFocused(true)}
               onBlur={() => setIsFocused(false)}
@@ -122,7 +122,7 @@ export default function CodeEditor({
             </div>
           )
         ) : (
-          <div 
+          <div
             className="relative h-full border-2 border-slate-200 rounded-xl overflow-hidden bg-slate-50 focus-within:border-slate-900 focus-within:shadow-lg transition-all"
             onFocus={() => setIsFocused(true)}
             onBlur={() => setIsFocused(false)}
