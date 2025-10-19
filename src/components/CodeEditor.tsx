@@ -1,4 +1,3 @@
-// @ts-expect-error - Monaco Editor 需要运行 pnpm install 安装
 import Editor from "@monaco-editor/react";
 import FileUpload from "./FileUpload";
 
@@ -75,11 +74,13 @@ export default function CodeEditor({
                 d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"
               />
             </svg>
-            <p className="text-slate-400 font-medium text-sm">拖拽代码文件到此处上传</p>
+            <p className="text-slate-400 font-medium text-sm">
+              拖拽代码文件到此处上传
+            </p>
             <p className="text-slate-300 text-xs mt-1">或点击"上传文件"按钮</p>
           </div>
         )}
-        
+
         <Editor
           value={value}
           onChange={(newValue) => onChange(newValue || "")}
