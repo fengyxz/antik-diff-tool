@@ -359,7 +359,7 @@ export default function App() {
         >
           {compareMode === "code" ? (
             <>
-              <DropZone onFileRead={handleDropLeft}>
+              <DropZone onFileRead={handleDropLeft} disabled={!!base}>
                 <CodeEditor
                   value={base}
                   onChange={setBase}
@@ -368,7 +368,7 @@ export default function App() {
                   language={codeLanguage}
                 />
               </DropZone>
-              <DropZone onFileRead={handleDropRight}>
+              <DropZone onFileRead={handleDropRight} disabled={!!changed}>
                 <CodeEditor
                   value={changed}
                   onChange={setChanged}
@@ -380,7 +380,7 @@ export default function App() {
             </>
           ) : (
             <>
-              <DropZone onFileRead={handleDropLeft}>
+              <DropZone onFileRead={handleDropLeft} disabled={!!base}>
                 <Textarea
                   value={base}
                   onChange={setBase}
@@ -390,7 +390,7 @@ export default function App() {
                   showFileUpload={true}
                 />
               </DropZone>
-              <DropZone onFileRead={handleDropRight}>
+              <DropZone onFileRead={handleDropRight} disabled={!!changed}>
                 <Textarea
                   value={changed}
                   onChange={setChanged}

@@ -4,33 +4,39 @@ interface DropZoneProps {
   onFileRead: (content: string, filename: string) => void;
   children: ReactNode;
   className?: string;
+  disabled?: boolean;
 }
 
 export default function DropZone({
   onFileRead,
   children,
   className = "",
+  disabled = false,
 }: DropZoneProps) {
   const [isDragging, setIsDragging] = useState(false);
 
   const handleDragEnter = (e: DragEvent) => {
+    if (disabled) return;
     e.preventDefault();
     e.stopPropagation();
     setIsDragging(true);
   };
 
   const handleDragLeave = (e: DragEvent) => {
+    if (disabled) return;
     e.preventDefault();
     e.stopPropagation();
     setIsDragging(false);
   };
 
   const handleDragOver = (e: DragEvent) => {
+    if (disabled) return;
     e.preventDefault();
     e.stopPropagation();
   };
 
   const handleDrop = async (e: DragEvent) => {
+    if (disabled) return;
     e.preventDefault();
     e.stopPropagation();
     setIsDragging(false);
