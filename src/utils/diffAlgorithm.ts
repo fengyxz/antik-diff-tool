@@ -1,5 +1,8 @@
+import { diffArrays } from "diff";
+
 export interface DiffResult {
   value: string;
+  count?: number;
   added?: boolean;
   removed?: boolean;
 }
@@ -72,22 +75,11 @@ export function mixedDiff(oldText: string, newText: string): DiffResult[] {
   const oldTokens = tokenize(oldText);
   const newTokens = tokenize(newText);
 
-  // 使用 jsdiff 的 diffArrays 进行比较
-  const changes = diffArrays(oldTokens, newTokens);
-
-  // 转换为统一的 DiffResult 格式
-  const results: DiffResult[] = [];
-
-  for (const change of changes) {
-    // 将 token 数组合并回字符串
-    const value = change.value.join("");
-
-    results.push({
-      value,
-      added: change.added ? true : undefined,
-      removed: change.removed ? true : undefined,
-    });
-  }
-
-  return results;
+  // 使用 jsdiff 的 diffArrays 进行比较，并合并 token 数组为字符串
+  return diffArrays(oldTokens, newTokens).map((change) => ({
+    value: change.value.join(""),
+    count: change.count,
+    added: change.added,
+    removed: change.removed,
+  }));
 }

@@ -9,12 +9,14 @@ import SideBySide from "./components/DiffDisplay/SideBySide";
 import EmptyState from "./components/DiffDisplay/EmptyState";
 import ShareDialog from "./components/ShareDialog";
 import LoadingScreen from "./components/LoadingScreen";
-import { mixedDiff } from "./utils/diffAlgorithm";
+import Tabs from "./components/Tabs";
+import CodeDiff from "./components/CodeDiff";
+import { mixedDiff, type DiffResult } from "./utils/diffAlgorithm";
 import { saveDiffSession, loadDiffSession } from "./lib/supabase";
-import type { DiffResult } from "./utils/diffAlgorithm";
 
 type DiffMode = "char" | "word" | "auto";
 type ViewMode = "inline" | "side";
+type CompareMode = "text" | "code";
 
 // 图标组件
 const TrashIcon = () => (
@@ -36,6 +38,7 @@ const TrashIcon = () => (
 export default function App() {
   const [base, setBase] = useState("");
   const [changed, setChanged] = useState("");
+  const [compareMode, setCompareMode] = useState<CompareMode>("text");
   const [diffMode, setDiffMode] = useState<DiffMode>("auto");
   const [viewMode, setViewMode] = useState<ViewMode>("inline");
   const [showShareDialog, setShowShareDialog] = useState(false);
@@ -137,13 +140,23 @@ export default function App() {
       <div className="mx-auto space-y-8">
         {/* 顶部标题栏 */}
         <header className="flex flex-col md:flex-row md:items-center justify-between gap-6 pb-4 border-b-2 border-slate-100">
-          <div>
-            <h1 className="text-4xl font-black text-slate-900 tracking-tight mb-2">
+          <div className="space-y-3">
+            <h1 className="text-4xl font-black text-slate-900 tracking-tight">
               文本对比工具
             </h1>
             <p className="text-slate-600 text-base">
               智能识别中英文，实时对比文本差异
             </p>
+            
+            {/* Tabs 切换 */}
+            <Tabs
+              value={compareMode}
+              onValueChange={(value) => setCompareMode(value as CompareMode)}
+              tabs={[
+                { value: "text", label: "📝 文本对比" },
+                { value: "code", label: "💻 代码对比" },
+              ]}
+            />
           </div>
           <div className="flex items-center gap-3">
             <Button variant="outline" onClick={handleClear}>
@@ -197,44 +210,46 @@ export default function App() {
           </div>
         </header>
 
-        {/* 控制面板 */}
-        <div className="bg-slate-50 rounded-xl md:rounded-2xl p-3 sm:p-4 md:p-6 border-2 border-slate-100">
-          <div className="flex flex-wrap items-start gap-4 md:gap-6 lg:gap-8">
-            {/* 对比模式选择 */}
-            <ToggleGroup
-              label="对比模式"
-              value={diffMode}
-              onChange={setDiffMode}
-              options={[
-                { value: "auto", label: "智能混合" },
-                { value: "char", label: "按字符" },
-                { value: "word", label: "按单词" },
-              ]}
-            />
+        {/* 控制面板 - 仅文本模式显示 */}
+        {compareMode === "text" && (
+          <div className="bg-slate-50 rounded-xl md:rounded-2xl p-3 sm:p-4 md:p-6 border-2 border-slate-100">
+            <div className="flex flex-wrap items-start gap-4 md:gap-6 lg:gap-8">
+              {/* 对比模式选择 */}
+              <ToggleGroup
+                label="对比模式"
+                value={diffMode}
+                onChange={setDiffMode}
+                options={[
+                  { value: "auto", label: "智能混合" },
+                  { value: "char", label: "按字符" },
+                  { value: "word", label: "按单词" },
+                ]}
+              />
 
-            {/* 显示模式选择 */}
-            <ToggleGroup
-              label="显示模式"
-              value={viewMode}
-              onChange={setViewMode}
-              options={[
-                { value: "inline", label: "内联显示" },
-                { value: "side", label: "并排显示" },
-              ]}
-            />
+              {/* 显示模式选择 */}
+              <ToggleGroup
+                label="显示模式"
+                value={viewMode}
+                onChange={setViewMode}
+                options={[
+                  { value: "inline", label: "内联显示" },
+                  { value: "side", label: "并排显示" },
+                ]}
+              />
 
-            {/* 统计信息 */}
-            <div className="flex flex-col gap-3 ml-auto">
-              <label className="text-xs font-bold text-slate-900 uppercase tracking-wide">
-                变更统计
-              </label>
-              <div className="flex items-center gap-4">
-                <StatsBadge type="added" count={stats.added} />
-                <StatsBadge type="removed" count={stats.removed} />
+              {/* 统计信息 */}
+              <div className="flex flex-col gap-3 ml-auto">
+                <label className="text-xs font-bold text-slate-900 uppercase tracking-wide">
+                  变更统计
+                </label>
+                <div className="flex items-center gap-4">
+                  <StatsBadge type="added" count={stats.added} />
+                  <StatsBadge type="removed" count={stats.removed} />
+                </div>
               </div>
             </div>
           </div>
-        </div>
+        )}
 
         {/* 输入区域 */}
         <div
@@ -279,6 +294,8 @@ export default function App() {
           <div className="p-6">
             {parts.length === 0 ? (
               <EmptyState />
+            ) : compareMode === "code" ? (
+              <CodeDiff oldCode={base} newCode={changed} />
             ) : viewMode === "inline" ? (
               <InlineDiff parts={parts} />
             ) : (
