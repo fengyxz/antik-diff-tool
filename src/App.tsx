@@ -11,6 +11,7 @@ import ShareDialog from "./components/ShareDialog";
 import LoadingScreen from "./components/LoadingScreen";
 import Tabs from "./components/Tabs";
 import CodeDiff from "./components/CodeDiff";
+import CodeEditor from "./components/CodeEditor";
 import { mixedDiff, type DiffResult } from "./utils/diffAlgorithm";
 import { detectLanguageFromFilename } from "./utils/languageDetector";
 import { saveDiffSession, loadDiffSession } from "./lib/supabase";
@@ -300,22 +301,43 @@ export default function App() {
           className="grid grid-cols-1 lg:grid-cols-2 gap-6"
           style={{ minHeight: "360px" }}
         >
-          <Textarea
-            value={base}
-            onChange={setBase}
-            onFileUpload={handleFileUpload}
-            placeholder="在此粘贴、输入文本或上传文件..."
-            label="原始文本"
-            showFileUpload={true}
-          />
-          <Textarea
-            value={changed}
-            onChange={setChanged}
-            onFileUpload={handleFileUpload}
-            placeholder="在此粘贴、输入文本或上传文件..."
-            label="修改后的文本"
-            showFileUpload={true}
-          />
+          {compareMode === "code" ? (
+            <>
+              <CodeEditor
+                value={base}
+                onChange={setBase}
+                onFileUpload={handleFileUpload}
+                label="原始代码"
+                language={codeLanguage}
+              />
+              <CodeEditor
+                value={changed}
+                onChange={setChanged}
+                onFileUpload={handleFileUpload}
+                label="修改后的代码"
+                language={codeLanguage}
+              />
+            </>
+          ) : (
+            <>
+              <Textarea
+                value={base}
+                onChange={setBase}
+                onFileUpload={handleFileUpload}
+                placeholder="在此粘贴、输入文本或上传文件..."
+                label="原始文本"
+                showFileUpload={true}
+              />
+              <Textarea
+                value={changed}
+                onChange={setChanged}
+                onFileUpload={handleFileUpload}
+                placeholder="在此粘贴、输入文本或上传文件..."
+                label="修改后的文本"
+                showFileUpload={true}
+              />
+            </>
+          )}
         </div>
 
         {/* Diff结果展示 */}
@@ -341,11 +363,7 @@ export default function App() {
             {parts.length === 0 ? (
               <EmptyState />
             ) : compareMode === "code" ? (
-              <CodeDiff
-                oldCode={base}
-                newCode={changed}
-                language={codeLanguage}
-              />
+              <CodeDiff oldCode={base} newCode={changed} />
             ) : viewMode === "inline" ? (
               <InlineDiff parts={parts} />
             ) : (

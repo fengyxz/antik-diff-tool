@@ -43,4 +43,3 @@ export function detectLanguageFromFilename(filename: string): string {
 
   return languageMap[ext] || "auto";
 }
-
