@@ -1,12 +1,15 @@
 import { codeDiff, type CodeDiffLine } from "../utils/codeDiff";
+import { highlightCode } from "../utils/highlightCode";
 import { useMemo } from "react";
+import "highlight.js/styles/github.css";
 
 interface CodeDiffProps {
   oldCode: string;
   newCode: string;
+  language?: string;
 }
 
-export default function CodeDiff({ oldCode, newCode }: CodeDiffProps) {
+export default function CodeDiff({ oldCode, newCode, language = "auto" }: CodeDiffProps) {
   const diffLines = useMemo(
     () => codeDiff(oldCode, newCode),
     [oldCode, newCode]
@@ -16,21 +19,23 @@ export default function CodeDiff({ oldCode, newCode }: CodeDiffProps) {
     <div className="bg-white rounded-xl border border-slate-200 overflow-hidden">
       {/* 表头 */}
       <div className="grid grid-cols-[60px_1fr] bg-slate-50 border-b border-slate-200 text-xs font-semibold text-slate-600 sticky top-0">
-        <div className="px-3 py-2 text-right border-r border-slate-200">行号</div>
+        <div className="px-3 py-2 text-right border-r border-slate-200">
+          行号
+        </div>
         <div className="px-4 py-2">内容</div>
       </div>
 
       {/* Diff 内容 */}
       <div className="font-mono text-[13px]">
         {diffLines.map((line, idx) => (
-          <DiffLine key={idx} line={line} />
+          <DiffLine key={idx} line={line} language={language} />
         ))}
       </div>
     </div>
   );
 }
 
-function DiffLine({ line }: { line: CodeDiffLine }) {
+function DiffLine({ line, language }: { line: CodeDiffLine; language: string }) {
   const bgColor =
     line.type === "added"
       ? "bg-emerald-50"
@@ -63,7 +68,9 @@ function DiffLine({ line }: { line: CodeDiffLine }) {
       : line.lineNumber;
 
   return (
-    <div className={`grid grid-cols-[60px_1fr] ${bgColor} border-b border-slate-100 last:border-b-0`}>
+    <div
+      className={`grid grid-cols-[60px_1fr] ${bgColor} border-b border-slate-100 last:border-b-0`}
+    >
       {/* 行号 */}
       <div
         className={`px-3 py-1 text-right border-r border-slate-200 select-none ${lineNumColor} font-medium`}
@@ -80,19 +87,21 @@ function DiffLine({ line }: { line: CodeDiffLine }) {
         >
           {prefix}
         </span>
-        <span
-          className={`${
+        <code
+          className={`flex-1 ${
             line.type === "removed"
               ? "text-rose-700"
               : line.type === "added"
               ? "text-emerald-700"
-              : "text-slate-700"
+              : ""
           } whitespace-pre-wrap break-all`}
-        >
-          {line.content || " "}
-        </span>
+          dangerouslySetInnerHTML={{
+            __html: line.content
+              ? highlightCode(line.content, language)
+              : " ",
+          }}
+        />
       </div>
     </div>
   );
 }
-

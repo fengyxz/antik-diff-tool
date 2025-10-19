@@ -41,6 +41,7 @@ export default function App() {
   const [compareMode, setCompareMode] = useState<CompareMode>("text");
   const [diffMode, setDiffMode] = useState<DiffMode>("auto");
   const [viewMode, setViewMode] = useState<ViewMode>("inline");
+  const [codeLanguage, setCodeLanguage] = useState<string>("auto");
   const [showShareDialog, setShowShareDialog] = useState(false);
   const [currentSessionId, setCurrentSessionId] = useState<string>("");
   const [loading, setLoading] = useState(false);
@@ -147,7 +148,7 @@ export default function App() {
             <p className="text-slate-600 text-base">
               智能识别中英文，实时对比文本差异
             </p>
-            
+
             {/* Tabs 切换 */}
             <Tabs
               value={compareMode}
@@ -210,46 +211,79 @@ export default function App() {
           </div>
         </header>
 
-        {/* 控制面板 - 仅文本模式显示 */}
-        {compareMode === "text" && (
-          <div className="bg-slate-50 rounded-xl md:rounded-2xl p-3 sm:p-4 md:p-6 border-2 border-slate-100">
-            <div className="flex flex-wrap items-start gap-4 md:gap-6 lg:gap-8">
-              {/* 对比模式选择 */}
-              <ToggleGroup
-                label="对比模式"
-                value={diffMode}
-                onChange={setDiffMode}
-                options={[
-                  { value: "auto", label: "智能混合" },
-                  { value: "char", label: "按字符" },
-                  { value: "word", label: "按单词" },
-                ]}
-              />
+        {/* 控制面板 */}
+        <div className="bg-slate-50 rounded-xl md:rounded-2xl p-3 sm:p-4 md:p-6 border-2 border-slate-100">
+          <div className="flex flex-wrap items-start gap-4 md:gap-6 lg:gap-8">
+            {compareMode === "text" ? (
+              <>
+                {/* 对比模式选择 */}
+                <ToggleGroup
+                  label="对比模式"
+                  value={diffMode}
+                  onChange={setDiffMode}
+                  options={[
+                    { value: "auto", label: "智能混合" },
+                    { value: "char", label: "按字符" },
+                    { value: "word", label: "按单词" },
+                  ]}
+                />
 
-              {/* 显示模式选择 */}
-              <ToggleGroup
-                label="显示模式"
-                value={viewMode}
-                onChange={setViewMode}
-                options={[
-                  { value: "inline", label: "内联显示" },
-                  { value: "side", label: "并排显示" },
-                ]}
-              />
-
-              {/* 统计信息 */}
-              <div className="flex flex-col gap-3 ml-auto">
-                <label className="text-xs font-bold text-slate-900 uppercase tracking-wide">
-                  变更统计
-                </label>
-                <div className="flex items-center gap-4">
-                  <StatsBadge type="added" count={stats.added} />
-                  <StatsBadge type="removed" count={stats.removed} />
+                {/* 显示模式选择 */}
+                <ToggleGroup
+                  label="显示模式"
+                  value={viewMode}
+                  onChange={setViewMode}
+                  options={[
+                    { value: "inline", label: "内联显示" },
+                    { value: "side", label: "并排显示" },
+                  ]}
+                />
+              </>
+            ) : (
+              <>
+                {/* 代码语言选择 */}
+                <div className="flex flex-col gap-3">
+                  <label className="text-xs font-bold text-slate-900 uppercase tracking-wide">
+                    编程语言
+                  </label>
+                  <select
+                    value={codeLanguage}
+                    onChange={(e) => setCodeLanguage(e.target.value)}
+                    className="px-4 py-2 bg-white border-2 border-slate-200 rounded-lg text-sm font-medium text-slate-700 hover:border-slate-300 focus:outline-none focus:ring-2 focus:ring-slate-400 focus:border-transparent"
+                  >
+                    <option value="auto">自动检测</option>
+                    <option value="javascript">JavaScript</option>
+                    <option value="typescript">TypeScript</option>
+                    <option value="python">Python</option>
+                    <option value="java">Java</option>
+                    <option value="cpp">C/C++</option>
+                    <option value="css">CSS</option>
+                    <option value="html">HTML</option>
+                    <option value="json">JSON</option>
+                    <option value="markdown">Markdown</option>
+                    <option value="bash">Bash</option>
+                    <option value="sql">SQL</option>
+                    <option value="go">Go</option>
+                    <option value="rust">Rust</option>
+                    <option value="php">PHP</option>
+                    <option value="ruby">Ruby</option>
+                  </select>
                 </div>
+              </>
+            )}
+
+            {/* 统计信息 */}
+            <div className="flex flex-col gap-3 ml-auto">
+              <label className="text-xs font-bold text-slate-900 uppercase tracking-wide">
+                变更统计
+              </label>
+              <div className="flex items-center gap-4">
+                <StatsBadge type="added" count={stats.added} />
+                <StatsBadge type="removed" count={stats.removed} />
               </div>
             </div>
           </div>
-        )}
+        </div>
 
         {/* 输入区域 */}
         <div
@@ -295,7 +329,7 @@ export default function App() {
             {parts.length === 0 ? (
               <EmptyState />
             ) : compareMode === "code" ? (
-              <CodeDiff oldCode={base} newCode={changed} />
+              <CodeDiff oldCode={base} newCode={changed} language={codeLanguage} />
             ) : viewMode === "inline" ? (
               <InlineDiff parts={parts} />
             ) : (

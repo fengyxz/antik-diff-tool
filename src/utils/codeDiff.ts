@@ -14,14 +14,25 @@ export interface CodeDiffLine {
 export function codeDiff(oldCode: string, newCode: string): CodeDiffLine[] {
   const changes = diffLines(oldCode, newCode);
   const result: CodeDiffLine[] = [];
-  
+
   let oldLineNum = 1;
   let newLineNum = 1;
 
   changes.forEach((change) => {
-    const lines = change.value.split("\n");
-    // 移除最后的空字符串（如果文本以换行结尾）
-    if (lines[lines.length - 1] === "") {
+    // diffLines 返回的每个 change.value 是完整的文本块
+    // 我们需要按换行符分割，但要保留空行
+    const text = change.value;
+
+    // 如果文本以换行结尾，split 会产生额外的空字符串，需要移除
+    // 但如果文本中间有空行（如 "a\n\nb"），需要保留
+    const lines = text.split("\n");
+
+    // 如果最后一个是空字符串且是因为末尾换行产生的，移除它
+    if (
+      lines.length > 0 &&
+      lines[lines.length - 1] === "" &&
+      text.endsWith("\n")
+    ) {
       lines.pop();
     }
 
@@ -56,4 +67,3 @@ export function codeDiff(oldCode: string, newCode: string): CodeDiffLine[] {
 
   return result;
 }
-

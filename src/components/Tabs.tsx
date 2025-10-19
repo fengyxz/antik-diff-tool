@@ -26,4 +26,3 @@ export default function Tabs({ value, onValueChange, tabs }: TabsProps) {
     </div>
   );
 }
-
