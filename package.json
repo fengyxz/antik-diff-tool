@@ -14,10 +14,10 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@monaco-editor/react": "^4.6.0",
     "@supabase/supabase-js": "^2.75.0",
     "classnames": "^2.3.2",
     "diff": "^5.1.0",
-    "highlight.js": "^11.9.0",
     "react": "^19.1.1",
     "react-dom": "^19.1.1"
   },

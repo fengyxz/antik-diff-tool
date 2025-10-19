@@ -12,7 +12,7 @@ import LoadingScreen from "./components/LoadingScreen";
 import Tabs from "./components/Tabs";
 import CodeDiff from "./components/CodeDiff";
 import { mixedDiff, type DiffResult } from "./utils/diffAlgorithm";
-import { detectLanguageFromFilename } from "./utils/highlightCode";
+import { detectLanguageFromFilename } from "./utils/languageDetector";
 import { saveDiffSession, loadDiffSession } from "./lib/supabase";
 
 type DiffMode = "char" | "word" | "auto";
