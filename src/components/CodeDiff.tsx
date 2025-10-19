@@ -1,16 +1,17 @@
-// @ts-expect-error - Monaco Editor 需要运行 pnpm install 安装
 import { DiffEditor } from "@monaco-editor/react";
 
 interface CodeDiffProps {
   oldCode: string;
   newCode: string;
   language?: string;
+  renderSideBySide?: boolean;
 }
 
 export default function CodeDiff({
   oldCode,
   newCode,
   language = "auto",
+  renderSideBySide = true,
 }: CodeDiffProps) {
   // 语言映射（Monaco 支持的语言名称）
   const getMonacoLanguage = (lang: string): string => {
@@ -46,7 +47,7 @@ export default function CodeDiff({
         theme="vs"
         options={{
           readOnly: true,
-          renderSideBySide: true,
+          renderSideBySide: renderSideBySide,
           minimap: { enabled: false },
           fontSize: 13,
           lineNumbers: "on",
@@ -58,7 +59,7 @@ export default function CodeDiff({
           glyphMargin: false,
           lineDecorationsWidth: 10,
           lineNumbersMinChars: 4,
-          enableSplitViewResizing: true,
+          enableSplitViewResizing: renderSideBySide,
           renderOverviewRuler: true,
           diffWordWrap: "off",
           ignoreTrimWhitespace: false,

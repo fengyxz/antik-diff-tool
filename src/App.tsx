@@ -280,6 +280,17 @@ export default function App() {
                     <option value="ruby">Ruby</option>
                   </select>
                 </div>
+
+                {/* 显示模式选择 */}
+                <ToggleGroup
+                  label="显示模式"
+                  value={viewMode}
+                  onChange={setViewMode}
+                  options={[
+                    { value: "inline", label: "内联显示" },
+                    { value: "side", label: "并排显示" },
+                  ]}
+                />
               </>
             )}
 
@@ -363,7 +374,12 @@ export default function App() {
             {parts.length === 0 ? (
               <EmptyState />
             ) : compareMode === "code" ? (
-              <CodeDiff oldCode={base} newCode={changed} language={codeLanguage} />
+              <CodeDiff
+                oldCode={base}
+                newCode={changed}
+                language={codeLanguage}
+                renderSideBySide={viewMode === "side"}
+              />
             ) : viewMode === "inline" ? (
               <InlineDiff parts={parts} />
             ) : (
