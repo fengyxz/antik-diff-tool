@@ -103,14 +103,38 @@ export default function App() {
 
   // 计算统计信息
   const stats = useMemo(() => {
-    const added = parts
-      .filter((p) => p.added)
-      .reduce((acc, p) => acc + p.value.length, 0);
-    const removed = parts
-      .filter((p) => p.removed)
-      .reduce((acc, p) => acc + p.value.length, 0);
-    return { added, removed };
-  }, [parts]);
+    if (compareMode === "code") {
+      // 代码模式：统计行数
+      const added = parts
+        .filter((p) => p.added)
+        .reduce((acc, p) => {
+          const lines = p.value.split("\n");
+          return (
+            acc +
+            (lines[lines.length - 1] === "" ? lines.length - 1 : lines.length)
+          );
+        }, 0);
+      const removed = parts
+        .filter((p) => p.removed)
+        .reduce((acc, p) => {
+          const lines = p.value.split("\n");
+          return (
+            acc +
+            (lines[lines.length - 1] === "" ? lines.length - 1 : lines.length)
+          );
+        }, 0);
+      return { added, removed };
+    } else {
+      // 文本模式：统计字符数
+      const added = parts
+        .filter((p) => p.added)
+        .reduce((acc, p) => acc + p.value.length, 0);
+      const removed = parts
+        .filter((p) => p.removed)
+        .reduce((acc, p) => acc + p.value.length, 0);
+      return { added, removed };
+    }
+  }, [parts, compareMode]);
 
   // 清空文本
   const handleClear = () => {
@@ -300,8 +324,16 @@ export default function App() {
                 变更统计
               </label>
               <div className="flex items-center gap-4">
-                <StatsBadge type="added" count={stats.added} />
-                <StatsBadge type="removed" count={stats.removed} />
+                <StatsBadge
+                  type="added"
+                  count={stats.added}
+                  unit={compareMode === "code" ? "行" : "字符"}
+                />
+                <StatsBadge
+                  type="removed"
+                  count={stats.removed}
+                  unit={compareMode === "code" ? "行" : "字符"}
+                />
               </div>
             </div>
           </div>

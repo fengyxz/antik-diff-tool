@@ -54,7 +54,6 @@ export default function FileUpload({ onFileRead, label }: FileUploadProps) {
         ref={fileInputRef}
         type="file"
         onChange={handleFileChange}
-        accept=".txt,.md,.js,.jsx,.ts,.tsx,.json,.html,.css,.xml,.csv,.log"
         className="hidden"
         id={`file-upload-${label}`}
       />

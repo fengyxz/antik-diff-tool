@@ -1,9 +1,10 @@
 interface StatsBadgeProps {
   type: "added" | "removed";
   count: number;
+  unit?: "字符" | "行";
 }
 
-export default function StatsBadge({ type, count }: StatsBadgeProps) {
+export default function StatsBadge({ type, count, unit = "字符" }: StatsBadgeProps) {
   const styles = {
     added: {
       bg: "bg-emerald-50",
@@ -31,6 +32,9 @@ export default function StatsBadge({ type, count }: StatsBadgeProps) {
       <span className={`text-xs md:text-sm font-semibold ${style.text}`}>
         {style.prefix}
         {count}
+      </span>
+      <span className={`text-[10px] md:text-xs ${style.text} opacity-70`}>
+        {unit}
       </span>
     </div>
   );
