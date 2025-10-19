@@ -72,7 +72,7 @@ export default function CodeEditor({
             >
               {/* 空状态拖拽提示 */}
               {!value && !isFocused && (
-                <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none z-10">
+                <div className="absolute bg-white inset-0 flex flex-col items-center justify-center pointer-events-none z-10">
                   <svg
                     className="w-12 h-12 text-slate-300 mb-3"
                     fill="none"
@@ -129,7 +129,7 @@ export default function CodeEditor({
           >
             {/* 空状态拖拽提示 */}
             {!value && !isFocused && (
-              <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none z-10">
+              <div className="absolute bg-white inset-0 flex flex-col items-center justify-center pointer-events-none z-10">
                 <svg
                   className="w-12 h-12 text-slate-300 mb-3"
                   fill="none"

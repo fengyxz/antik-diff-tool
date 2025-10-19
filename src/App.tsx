@@ -402,6 +402,7 @@ export default function App() {
                     {textarea}
                   </DropZone>
                 )}
+                className="flex-1 h-full"
               />
               <Textarea
                 value={changed}

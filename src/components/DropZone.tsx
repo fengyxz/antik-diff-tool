@@ -127,7 +127,7 @@ export default function DropZone({
     <div
       className={`${className} ${
         isDragging ? "ring-2 ring-slate-900 ring-offset-2" : ""
-      } transition-all relative rounded-xl`}
+      } transition-all relative rounded-xl flex flex-col`}
       onDragEnter={handleDragEnter}
       onDragLeave={handleDragLeave}
       onDragOver={handleDragOver}

@@ -58,7 +58,9 @@ export default function Textarea({
           <label className="text-xs font-bold text-slate-900 uppercase tracking-wide">
             {label}
           </label>
-          {showFileUpload && <FileUpload onFileRead={handleFileRead} label={label} />}
+          {showFileUpload && (
+            <FileUpload onFileRead={handleFileRead} label={label} />
+          )}
         </div>
       )}
       {wrapTextarea ? (
@@ -66,7 +68,7 @@ export default function Textarea({
           <div className="relative flex-1">
             {/* 空状态拖拽提示 */}
             {!value && !isFocused && (
-              <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none z-10">
+              <div className="absolute bg-white inset-0 flex flex-col items-center justify-center pointer-events-none z-10">
                 <svg
                   className="w-12 h-12 text-slate-300 mb-3"
                   fill="none"
@@ -80,11 +82,15 @@ export default function Textarea({
                     d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"
                   />
                 </svg>
-                <p className="text-slate-400 font-medium text-sm">拖拽文件到此处上传</p>
-                <p className="text-slate-300 text-xs mt-1">或点击"上传文件"按钮</p>
+                <p className="text-slate-400 font-medium text-sm">
+                  拖拽文件到此处上传
+                </p>
+                <p className="text-slate-300 text-xs mt-1">
+                  或点击"上传文件"按钮
+                </p>
               </div>
             )}
-            
+
             <textarea
               value={value}
               onChange={(e) => onChange(e.target.value)}
@@ -104,7 +110,7 @@ export default function Textarea({
         <div className="relative flex-1">
           {/* 空状态拖拽提示 */}
           {!value && !isFocused && (
-            <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none z-10">
+            <div className="absolute bg-white inset-0 flex flex-col items-center justify-center pointer-events-none z-10">
               <svg
                 className="w-12 h-12 text-slate-300 mb-3"
                 fill="none"
@@ -118,11 +124,15 @@ export default function Textarea({
                   d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"
                 />
               </svg>
-              <p className="text-slate-400 font-medium text-sm">拖拽文件到此处上传</p>
-              <p className="text-slate-300 text-xs mt-1">或点击"上传文件"按钮</p>
+              <p className="text-slate-400 font-medium text-sm">
+                拖拽文件到此处上传
+              </p>
+              <p className="text-slate-300 text-xs mt-1">
+                或点击"上传文件"按钮
+              </p>
             </div>
           )}
-          
+
           <textarea
             value={value}
             onChange={(e) => onChange(e.target.value)}
