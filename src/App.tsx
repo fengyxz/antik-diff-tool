@@ -363,7 +363,7 @@ export default function App() {
             {parts.length === 0 ? (
               <EmptyState />
             ) : compareMode === "code" ? (
-              <CodeDiff oldCode={base} newCode={changed} />
+              <CodeDiff oldCode={base} newCode={changed} language={codeLanguage} />
             ) : viewMode === "inline" ? (
               <InlineDiff parts={parts} />
             ) : (

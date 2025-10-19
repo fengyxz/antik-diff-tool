@@ -1,3 +1,4 @@
+// @ts-expect-error - Monaco Editor 需要运行 pnpm install 安装
 import Editor from "@monaco-editor/react";
 import FileUpload from "./FileUpload";
 
@@ -86,4 +87,3 @@ export default function CodeEditor({
     </div>
   );
 }
-
