@@ -2,7 +2,7 @@ import { useRef } from "react";
 import Button from "./Button";
 
 interface FileUploadProps {
-  onFileRead: (content: string) => void;
+  onFileRead: (content: string, filename?: string) => void;
   label?: string;
 }
 
@@ -15,7 +15,7 @@ export default function FileUpload({ onFileRead, label }: FileUploadProps) {
 
     try {
       const text = await readFileAsText(file);
-      onFileRead(text);
+      onFileRead(text, file.name);
       // 清空input，允许重复上传同一个文件
       if (fileInputRef.current) {
         fileInputRef.current.value = "";

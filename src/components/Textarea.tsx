@@ -6,6 +6,7 @@ interface TextareaProps
   label?: string;
   value: string;
   onChange: (value: string) => void;
+  onFileUpload?: (content: string, filename: string) => void;
   showFileUpload?: boolean;
 }
 
@@ -31,12 +32,20 @@ export default function Textarea({
   label,
   value,
   onChange,
+  onFileUpload,
   showFileUpload = false,
   className = "",
   ...props
 }: TextareaProps) {
   const charCount = value.length;
   const wordCount = countWords(value);
+
+  const handleFileRead = (content: string, filename?: string) => {
+    onChange(content);
+    if (filename && onFileUpload) {
+      onFileUpload(content, filename);
+    }
+  };
 
   return (
     <div className="flex flex-col h-full">
@@ -45,7 +54,7 @@ export default function Textarea({
           <label className="text-xs font-bold text-slate-900 uppercase tracking-wide">
             {label}
           </label>
-          {showFileUpload && <FileUpload onFileRead={onChange} label={label} />}
+          {showFileUpload && <FileUpload onFileRead={handleFileRead} label={label} />}
         </div>
       )}
       <div className="relative flex-1">

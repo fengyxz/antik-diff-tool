@@ -1,7 +1,7 @@
 import { codeDiff, type CodeDiffLine } from "../utils/codeDiff";
 import { highlightCode } from "../utils/highlightCode";
 import { useMemo } from "react";
-import "highlight.js/styles/github.css";
+import "../styles/code-highlight.css";
 
 interface CodeDiffProps {
   oldCode: string;
@@ -9,7 +9,11 @@ interface CodeDiffProps {
   language?: string;
 }
 
-export default function CodeDiff({ oldCode, newCode, language = "auto" }: CodeDiffProps) {
+export default function CodeDiff({
+  oldCode,
+  newCode,
+  language = "auto",
+}: CodeDiffProps) {
   const diffLines = useMemo(
     () => codeDiff(oldCode, newCode),
     [oldCode, newCode]
@@ -35,7 +39,13 @@ export default function CodeDiff({ oldCode, newCode, language = "auto" }: CodeDi
   );
 }
 
-function DiffLine({ line, language }: { line: CodeDiffLine; language: string }) {
+function DiffLine({
+  line,
+  language,
+}: {
+  line: CodeDiffLine;
+  language: string;
+}) {
   const bgColor =
     line.type === "added"
       ? "bg-emerald-50"
@@ -96,9 +106,7 @@ function DiffLine({ line, language }: { line: CodeDiffLine; language: string }) 
               : ""
           } whitespace-pre-wrap break-all`}
           dangerouslySetInnerHTML={{
-            __html: line.content
-              ? highlightCode(line.content, language)
-              : " ",
+            __html: line.content ? highlightCode(line.content, language) : " ",
           }}
         />
       </div>

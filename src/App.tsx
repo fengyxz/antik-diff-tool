@@ -12,6 +12,7 @@ import LoadingScreen from "./components/LoadingScreen";
 import Tabs from "./components/Tabs";
 import CodeDiff from "./components/CodeDiff";
 import { mixedDiff, type DiffResult } from "./utils/diffAlgorithm";
+import { detectLanguageFromFilename } from "./utils/highlightCode";
 import { saveDiffSession, loadDiffSession } from "./lib/supabase";
 
 type DiffMode = "char" | "word" | "auto";
@@ -114,6 +115,15 @@ export default function App() {
   const handleClear = () => {
     setBase("");
     setChanged("");
+    setCodeLanguage("auto");
+  };
+
+  // 文件上传回调 - 自动检测语言
+  const handleFileUpload = (_content: string, filename: string) => {
+    if (compareMode === "code") {
+      const detectedLang = detectLanguageFromFilename(filename);
+      setCodeLanguage(detectedLang);
+    }
   };
 
   // 保存并分享
@@ -293,6 +303,7 @@ export default function App() {
           <Textarea
             value={base}
             onChange={setBase}
+            onFileUpload={handleFileUpload}
             placeholder="在此粘贴、输入文本或上传文件..."
             label="原始文本"
             showFileUpload={true}
@@ -300,6 +311,7 @@ export default function App() {
           <Textarea
             value={changed}
             onChange={setChanged}
+            onFileUpload={handleFileUpload}
             placeholder="在此粘贴、输入文本或上传文件..."
             label="修改后的文本"
             showFileUpload={true}
@@ -329,7 +341,11 @@ export default function App() {
             {parts.length === 0 ? (
               <EmptyState />
             ) : compareMode === "code" ? (
-              <CodeDiff oldCode={base} newCode={changed} language={codeLanguage} />
+              <CodeDiff
+                oldCode={base}
+                newCode={changed}
+                language={codeLanguage}
+              />
             ) : viewMode === "inline" ? (
               <InlineDiff parts={parts} />
             ) : (
