@@ -10,7 +10,7 @@ interface DropZoneProps {
 export default function DropZone({
   onFileRead,
   children,
-  className = "",
+  className = "h-full",
   disabled = false,
 }: DropZoneProps) {
   const [isDragging, setIsDragging] = useState(false);

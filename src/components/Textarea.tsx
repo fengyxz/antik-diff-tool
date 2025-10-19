@@ -1,5 +1,6 @@
 import type { TextareaHTMLAttributes, ReactNode } from "react";
 import FileUpload from "./FileUpload";
+import { useState } from "react";
 
 interface TextareaProps
   extends Omit<TextareaHTMLAttributes<HTMLTextAreaElement>, "onChange"> {
@@ -39,6 +40,7 @@ export default function Textarea({
   className = "",
   ...props
 }: TextareaProps) {
+  const [isFocused, setIsFocused] = useState(false);
   const charCount = value.length;
   const wordCount = countWords(value);
 
@@ -63,8 +65,8 @@ export default function Textarea({
         wrapTextarea(
           <div className="relative flex-1">
             {/* 空状态拖拽提示 */}
-            {!value && (
-              <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none rounded-xl bg-slate-50 border-2 border-dashed border-slate-300">
+            {!value && !isFocused && (
+              <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none rounded-xl bg-slate-50 border-2 border-dashed border-slate-300 z-10">
                 <svg
                   className="w-12 h-12 text-slate-300 mb-3"
                   fill="none"
@@ -86,6 +88,8 @@ export default function Textarea({
             <textarea
               value={value}
               onChange={(e) => onChange(e.target.value)}
+              onFocus={() => setIsFocused(true)}
+              onBlur={() => setIsFocused(false)}
               className={`w-full h-full px-4 py-4 pb-10 text-[15px] leading-relaxed rounded-xl border-2 border-slate-200 bg-transparent text-slate-900 placeholder:text-slate-400 focus:outline-none focus:border-slate-900 focus:bg-white focus:shadow-lg resize-none transition-all ${className}`}
               {...props}
             />
@@ -99,8 +103,8 @@ export default function Textarea({
       ) : (
         <div className="relative flex-1">
           {/* 空状态拖拽提示 */}
-          {!value && (
-            <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none rounded-xl bg-slate-50 border-2 border-dashed border-slate-300">
+          {!value && !isFocused && (
+            <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none rounded-xl bg-slate-50 border-2 border-dashed border-slate-300 z-10">
               <svg
                 className="w-12 h-12 text-slate-300 mb-3"
                 fill="none"
@@ -122,6 +126,8 @@ export default function Textarea({
           <textarea
             value={value}
             onChange={(e) => onChange(e.target.value)}
+            onFocus={() => setIsFocused(true)}
+            onBlur={() => setIsFocused(false)}
             className={`w-full h-full px-4 py-4 pb-10 text-[15px] leading-relaxed rounded-xl border-2 border-slate-200 bg-transparent text-slate-900 placeholder:text-slate-400 focus:outline-none focus:border-slate-900 focus:bg-white focus:shadow-lg resize-none transition-all ${className}`}
             {...props}
           />

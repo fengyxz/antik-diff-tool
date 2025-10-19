@@ -366,7 +366,11 @@ export default function App() {
                 label="原始代码"
                 language={codeLanguage}
                 wrapEditor={(editor) => (
-                  <DropZone onFileRead={handleDropLeft} disabled={!!base}>
+                  <DropZone
+                    onFileRead={handleDropLeft}
+                    disabled={!!base}
+                    className="h-full"
+                  >
                     {editor}
                   </DropZone>
                 )}
